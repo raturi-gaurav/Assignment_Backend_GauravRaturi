@@ -14,13 +14,16 @@ import com.assignment_growthx.assignment_growthx.Repository.UserRepository;
 @Service
 public class AssignmentService {
 
+    // Injecting AssignmentRepository for assignment-related database operations
     @Autowired
     private AssignmentRepository assignmentRepository;
 
+    // Injecting UserRepository for user-related database operations
     @Autowired
     private UserRepository userRepository;
 
     public Assignment uploadAssignment(Assignment assignment) {
+        // Validate the user associated with the assignmen
         User user = userRepository.findByUsername(assignment.getUserId());
         if (user == null || !"USER".equals(user.getRole())) {
             throw new RuntimeException("User not found or invalid role.");
@@ -36,10 +39,12 @@ public class AssignmentService {
 
         return assignmentRepository.save(assignment);
     }
-
+    //Retrieves a list of assignments associated with a specific admin.
     public List<Assignment> getAssignmentsByAdmin(String adminUsername) {
         return assignmentRepository.findByAdmin(adminUsername);
     }
+
+    //Retrieves a list of assignments associated with a specific user.
 
     public List<Assignment> getAssignmentsByUserId(String userId) {
         return assignmentRepository.findByUserId(userId);
